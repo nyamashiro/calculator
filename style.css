@@ -35,8 +35,21 @@ button {
 
 .buttons-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.number-buttons-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);
+}
+
+.operator-buttons-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat (5, 1fr);
+
 }
 
 .one {grid-area: 3 / 1 / 4 / 2;}
@@ -46,8 +59,7 @@ button {
 .five {grid-area: 2 / 2 / 3 / 3;}
 .six {grid-area: 2 / 3 / 3 / 4;}
 .seven {grid-area: 1 / 1 / 2 / 2;}
-.ght {grid-area: 1 / 2 / 2 / 3;}
+.eight {grid-area: 1 / 2 / 2 / 3;}
 .nine {grid-area: 1 / 3 / 2 / 4;}
 .decimal {grid-area: 4 / 1 / 5 / 2;}
 .zero {grid-area: 4 / 2 / 5 / 3;}
-.equals {grid-area: 4 / 3 / 5 / 4;}
