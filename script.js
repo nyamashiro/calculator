@@ -1,19 +1,35 @@
-let firstNumber;
-let secondNumber;
-let operator;
+// let firstNumber;
+// let secondNumber;
+// let operator;
 
-function add (num1, num2) {
-  return num1 + num2
+function add(firstNumber, secondNumber) {
+  return firstNumber + secondNumber
 }
 
-function subtract (num1, num2) {
-  return num1 - num2
+function subtract(firstNumber, secondNumber) {
+  return firstNumber - secondNumber
 }
 
-function multiply (num1, num2) {
-  return num1 * num2
+function multiply(firstNumber, secondNumber) {
+  return firstNumber * secondNumber
 }
 
-function divide (num1, num2) {
-  return num1 / num2
+function divide(firstNumber, secondNumber) {
+  return firstNumber / secondNumber
+}
+
+function operate(firstNumber, secondNumber, operator) {
+  switch (operator) {
+    case "+":
+      return add(firstNumber, secondNumber);
+
+    case "-":
+      return subtract(firstNumber, secondNumber);
+
+    case "*":
+      return multiply(firstNumber, secondNumber);
+
+    case "/":
+      return divide(firstNumber, secondNumber);
+  }
 }
