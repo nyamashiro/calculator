@@ -13,19 +13,25 @@ const display = document.querySelector(".display-container")
 const numberOnDisplay = document.createElement("div");
 
 function displayFirstNumber(num) {
-  calculatorObj.firstNumber += `${num}`;
-  calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
-  numberOnDisplay.textContent = calculatorObj.displayNumbers;
-  display.appendChild(numberOnDisplay);
-  console.log(calculatorObj);
+  if (calculatorObj.displayNumbers == parseInt(calculatorObj.firstNumber)) {
+    calculatorObj.firstNumber += `${num}`;
+    calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
+    numberOnDisplay.textContent = calculatorObj.displayNumbers;
+    display.appendChild(numberOnDisplay);
+  } else {
+    calculatorObj.firstNumber = `${num}`;
+    calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
+    numberOnDisplay.textContent = calculatorObj.displayNumbers;
+    display.appendChild(numberOnDisplay);
+  }
 }
 
 function displaySecondNumber(num) {
   calculatorObj.secondNumber += `${num}`;
   calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
+  calculatorObj.fullExpression = true;
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
-  console.log(calculatorObj);
 }
 
 function displayOperator(op) {
@@ -33,19 +39,19 @@ function displayOperator(op) {
   calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
-  console.log(calculatorObj);
 }
 
 function clearSettings() {
-  calculatorObj.firstNumber = "";
   calculatorObj.secondNumber = "";
   calculatorObj.operator = "";
   calculatorObj.fullExpression = false;
+  console.log(calculatorObj)
 }
 
 function clearDisplay() {
   clearSettings()
   calculatorObj.displayNumbers = "";
+  calculatorObj.firstNumber = "";
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
 }
@@ -56,6 +62,53 @@ clearButton.addEventListener("click", () => {
 
 operatorButtons.addEventListener("click", (e) => {
   let target = e.target;
+  if (calculatorObj.fullExpression) {
+    switch (target.id) {
+      case "+":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target.id);
+        break;
+
+      case "-":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target.id);
+        break;
+
+      case "*":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target.id);
+        break;
+
+      case "/":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target.id);
+        break;
+
+      case "=":
+        if (parseInt(calculatorObj.secondNumber) == 0) {
+          calculatorObj.displayNumbers = "*finger wag* can't divide by 0 IDIT"
+          clearSettings();
+          calculatorObj.firstNumber = "";
+          numberOnDisplay.textContent = calculatorObj.displayNumbers
+          break;
+        } else {
+          operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+          calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+          clearSettings();
+      
+          break;
+        }
+
+    }
+  } else {
     switch (target.id) {
       case "+":
         displayOperator(target.id);
@@ -72,13 +125,8 @@ operatorButtons.addEventListener("click", (e) => {
       case "/":
         displayOperator(target.id);
         break;
-
-      case "=":
-        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
-        clearSettings();
-        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
-        break;
     }
+  }
 })
 
 numberButtons.addEventListener("click", (e) => {
@@ -122,8 +170,12 @@ numberButtons.addEventListener("click", (e) => {
         break;
 
       case "0":
-        displaySecondNumber(target.id)
-        break;
+        if (parseInt(calculatorObj.secondNumber) == 0) {
+          return
+        } else {
+          displaySecondNumber(target.id)
+          break;
+        }
     }
   } else {
     switch (target.id) {
@@ -164,8 +216,13 @@ numberButtons.addEventListener("click", (e) => {
         break;
 
       case "0":
-        displayFirstNumber(target.id)
-        break;
+        if (parseInt(calculatorObj.firstNumber) == 0) {
+          return
+        } else {
+          displayFirstNumber(target.id)
+          break;
+        }
+
     }
   }
 })
@@ -190,18 +247,22 @@ function operate(firstNumber, secondNumber, operator) {
   switch (operator) {
     case "+":
       numberOnDisplay.textContent = add(firstNumber, secondNumber);
+      calculatorObj.firstNumber = add(firstNumber, secondNumber);
       break;
 
     case "-":
       numberOnDisplay.textContent = subtract(firstNumber, secondNumber);
+      calculatorObj.firstNumber = subtract(firstNumber, secondNumber);
       break;
 
     case "*":
       numberOnDisplay.textContent = multiply(firstNumber, secondNumber);
+      calculatorObj.firstNumber = multiply(firstNumber, secondNumber);
       break;
 
     case "/":
       numberOnDisplay.textContent = divide(firstNumber, secondNumber);
+      calculatorObj.firstNumber = divide(firstNumber, secondNumber);
       break;
   }
   display.appendChild(numberOnDisplay);
