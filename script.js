@@ -228,19 +228,19 @@ numberButtons.addEventListener("click", (e) => {
 })
 
 function add(firstNumber, secondNumber) {
-  return parseInt(firstNumber) + parseInt(secondNumber)
+  return parseFloat((parseInt(firstNumber) + parseInt(secondNumber)).toFixed(2))
 }
 
 function subtract(firstNumber, secondNumber) {
-  return firstNumber - secondNumber
+  return parseFloat((firstNumber - secondNumber).toFixed(2))
 }
 
 function multiply(firstNumber, secondNumber) {
-  return firstNumber * secondNumber
+  return parseFloat((firstNumber * secondNumber).toFixed(2))
 }
 
 function divide(firstNumber, secondNumber) {
-  return firstNumber / secondNumber
+  return parseFloat((firstNumber / secondNumber).toFixed(2))
 }
 
 function operate(firstNumber, secondNumber, operator) {
