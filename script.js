@@ -13,16 +13,19 @@ const display = document.querySelector(".display-container")
 const numberOnDisplay = document.createElement("div");
 
 function displayFirstNumber(num) {
-  if (calculatorObj.displayNumbers == parseInt(calculatorObj.firstNumber)) {
+  //numbers that the user inputs after equation is calculated (pressed =) will create a new first number instead of adding onto the result
+  if (calculatorObj.displayNumbers == parseFloat(calculatorObj.firstNumber)) {
     calculatorObj.firstNumber += `${num}`;
     calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
     numberOnDisplay.textContent = calculatorObj.displayNumbers;
     display.appendChild(numberOnDisplay);
+    console.log(calculatorObj)
   } else {
     calculatorObj.firstNumber = `${num}`;
     calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
     numberOnDisplay.textContent = calculatorObj.displayNumbers;
     display.appendChild(numberOnDisplay);
+    console.log(calculatorObj)
   }
 }
 
@@ -32,6 +35,7 @@ function displaySecondNumber(num) {
   calculatorObj.fullExpression = true;
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
+  console.log(calculatorObj)
 }
 
 function displayOperator(op) {
@@ -39,6 +43,7 @@ function displayOperator(op) {
   calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`;
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
+  console.log(calculatorObj)
 }
 
 function clearSettings() {
@@ -54,6 +59,7 @@ function clearDisplay() {
   calculatorObj.firstNumber = "";
   numberOnDisplay.textContent = calculatorObj.displayNumbers;
   display.appendChild(numberOnDisplay);
+  console.log(calculatorObj)
 }
 
 clearButton.addEventListener("click", () => {
@@ -93,7 +99,7 @@ operatorButtons.addEventListener("click", (e) => {
         break;
 
       case "=":
-        if (parseInt(calculatorObj.secondNumber) == 0) {
+        if (parseFloat(calculatorObj.secondNumber) == 0) {
           calculatorObj.displayNumbers = "*finger wag* can't divide by 0 IDIT"
           clearSettings();
           calculatorObj.firstNumber = "";
@@ -103,7 +109,7 @@ operatorButtons.addEventListener("click", (e) => {
           operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
           calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
           clearSettings();
-      
+
           break;
         }
 
@@ -170,7 +176,18 @@ numberButtons.addEventListener("click", (e) => {
         break;
 
       case "0":
-        if (parseInt(calculatorObj.secondNumber) == 0) {
+        if (parseFloat(calculatorObj.secondNumber) == 0 && !(calculatorObj.secondNumber).includes(".")) {
+          return
+        } else {
+          displaySecondNumber(target.id)
+          break;
+        }
+
+      case ".":
+        if (calculatorObj.secondNumber == "") {
+          displaySecondNumber(`0${target.id}`)
+          break;
+        } else if ((calculatorObj.secondNumber).includes(".")) {
           return
         } else {
           displaySecondNumber(target.id)
@@ -216,7 +233,19 @@ numberButtons.addEventListener("click", (e) => {
         break;
 
       case "0":
-        if (parseInt(calculatorObj.firstNumber) == 0) {
+        if (parseFloat(calculatorObj.firstNumber) == 0 && !(calculatorObj.firstNumber).includes(".")) {
+          return
+        } else {
+          displayFirstNumber(target.id)
+          break
+        }
+
+      case ".":
+        if (calculatorObj.firstNumber == "") {
+          displayFirstNumber(`0${target.id}`)
+          break;
+        }
+        else if ((calculatorObj.firstNumber).includes(".")) {
           return
         } else {
           displayFirstNumber(target.id)
@@ -228,19 +257,19 @@ numberButtons.addEventListener("click", (e) => {
 })
 
 function add(firstNumber, secondNumber) {
-  return parseFloat((parseInt(firstNumber) + parseInt(secondNumber)).toFixed(2))
+  return parseFloat((parseFloat(firstNumber) + parseFloat(secondNumber)).toFixed(5))
 }
 
 function subtract(firstNumber, secondNumber) {
-  return parseFloat((firstNumber - secondNumber).toFixed(2))
+  return parseFloat((firstNumber - secondNumber).toFixed(5))
 }
 
 function multiply(firstNumber, secondNumber) {
-  return parseFloat((firstNumber * secondNumber).toFixed(2))
+  return parseFloat((firstNumber * secondNumber).toFixed(5))
 }
 
 function divide(firstNumber, secondNumber) {
-  return parseFloat((firstNumber / secondNumber).toFixed(2))
+  return parseFloat((firstNumber / secondNumber).toFixed(5))
 }
 
 function operate(firstNumber, secondNumber, operator) {
