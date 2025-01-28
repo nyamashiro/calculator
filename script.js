@@ -68,6 +68,9 @@ clearButton.addEventListener("click", () => {
 
 operatorButtons.addEventListener("click", (e) => {
   let target = e.target;
+  if (calculatorObj.displayNumbers === "") {
+    return
+  }
   if (calculatorObj.fullExpression) {
     switch (target.id) {
       case "+":
@@ -131,6 +134,195 @@ operatorButtons.addEventListener("click", (e) => {
       case "/":
         displayOperator(target.id);
         break;
+    }
+  }
+})
+
+window.document.addEventListener("keydown", (e) => {
+  let target = e.key
+  if (calculatorObj.displayNumbers === "") {
+    return
+  }
+  if (calculatorObj.fullExpression) {
+    switch (target) {
+      case "+":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target);
+        break;
+
+      case "-":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target);
+        break;
+
+      case "*":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target);
+        break;
+
+      case "/":
+        operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+        calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+        clearSettings();
+        displayOperator(target);
+        break;
+
+      case "=":
+        if (parseFloat(calculatorObj.secondNumber) == 0) {
+          calculatorObj.displayNumbers = "*finger wag* can't divide by 0 IDIT"
+          clearSettings();
+          calculatorObj.firstNumber = "";
+          numberOnDisplay.textContent = calculatorObj.displayNumbers
+          break;
+        } else {
+          operate(calculatorObj.firstNumber, calculatorObj.secondNumber, calculatorObj.operator);
+          calculatorObj.displayNumbers = `${calculatorObj.firstNumber} ${calculatorObj.operator} ${calculatorObj.secondNumber}`
+          clearSettings();
+
+          break;
+        }
+
+    }
+  } else {
+    switch (target) {
+      case "+":
+        displayOperator(target);
+        break;
+
+      case "-":
+        displayOperator(target);
+        break;
+
+      case "*":
+        displayOperator(target);
+        break;
+
+      case "/":
+        displayOperator(target);
+        break;
+    }
+  }
+  if (calculatorObj.operator) {
+    switch (target) {
+      case "9":
+        displaySecondNumber(target)
+        break;
+
+      case "8":
+        displaySecondNumber(target)
+        break;
+
+      case "7":
+        displaySecondNumber(target)
+        break;
+
+      case "6":
+        displaySecondNumber(target)
+        break;
+
+      case "5":
+        displaySecondNumber(target)
+        break;
+
+      case "4":
+        displaySecondNumber(target)
+        break;
+
+      case "3":
+        displaySecondNumber(target)
+        break;
+
+      case "2":
+        displaySecondNumber(target)
+        break;
+
+      case "1":
+        displaySecondNumber(target)
+        break;
+
+      case "0":
+        if (parseFloat(calculatorObj.secondNumber) == 0 && !(calculatorObj.secondNumber).includes(".")) {
+          return
+        } else {
+          displaySecondNumber(target)
+          break;
+        }
+
+      case ".":
+        if (calculatorObj.secondNumber == "") {
+          displaySecondNumber(`0${target}`)
+          break;
+        } else if ((calculatorObj.secondNumber).includes(".")) {
+          return
+        } else {
+          displaySecondNumber(target)
+          break;
+        }
+    }
+  } else {
+    switch (target) {
+      case "9":
+        displayFirstNumber(target)
+        break;
+
+      case "8":
+        displayFirstNumber(target)
+        break;
+
+      case "7":
+        displayFirstNumber(target)
+        break;
+
+      case "6":
+        displayFirstNumber(target)
+        break;
+
+      case "5":
+        displayFirstNumber(target)
+        break;
+
+      case "4":
+        displayFirstNumber(target)
+        break;
+
+      case "3":
+        displayFirstNumber(target)
+        break;
+
+      case "2":
+        displayFirstNumber(target)
+        break;
+
+      case "1":
+        displayFirstNumber(target)
+        break;
+
+      case "0":
+        if (parseFloat(calculatorObj.firstNumber) == 0 && !(calculatorObj.firstNumber).includes(".")) {
+          return
+        } else {
+          displayFirstNumber(target)
+          break
+        }
+
+      case ".":
+        if (calculatorObj.firstNumber == "") {
+          displayFirstNumber(`0${target}`)
+          break;
+        }
+        else if ((calculatorObj.firstNumber).includes(".")) {
+          return
+        } else {
+          displayFirstNumber(target)
+          break;
+        }
+
     }
   }
 })
